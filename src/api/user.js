@@ -22,9 +22,9 @@ export function getUserInfo(params) {
 }
 
 // 用户名称 get 方法
-export function getUserName(params) {
+export function getUserName(params, id) {
   return request({
-    url: '/user/name',
+    url: `/user/name?userId=${id}`,
     method: 'post',
     data: params,
     hideloading: true

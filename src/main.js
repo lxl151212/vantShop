@@ -7,11 +7,15 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+// import Vant from 'vant'
+// import 'vant/lib/index.css'
+
+// Vue.use(Vant)
 
 // 引入全局样式
 import '@/assets/css/index.scss'
 // 设置 js中可以访问 $cdn
-import {$cdn} from '@/config'
+import { $cdn } from '@/config'
 Vue.prototype.$cdn = $cdn
 
 // 全局引入按需引入UI库 vant

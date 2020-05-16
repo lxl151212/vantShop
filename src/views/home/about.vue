@@ -1,11 +1,28 @@
 <!-- home -->
 <template>
-  <div class="app-container">
-    <div class="warpper">
-      <div class="list">
-        <div class="logo"></div>
-      </div>
-    </div>
+  <div style="padding-top: 30px">
+    <!-- <van-cell title="显示分享面板" @click="showShare = true" />
+    <van-share-sheet
+      v-model="showShare"
+      title="立即分享给好友"
+      :options="options"
+      @select="onSelect"
+    /> -->
+    <van-progress :percentage="50" />
+    <van-collapse v-model="activeNames" style="margin-top: 30px">
+      <van-collapse-item title="标题1" name="1">内容</van-collapse-item>
+      <van-collapse-item title="标题2" name="2">内容</van-collapse-item>
+      <van-collapse-item title="标题3" name="3" disabled
+        >内容</van-collapse-item
+      >
+    </van-collapse>
+    <van-cell title="显示分享面板" @click="showShare = true" />
+    <van-share-sheet
+      v-model="showShare"
+      title="立即分享给好友"
+      :options="options"
+      @select="onSelect"
+    />
   </div>
 </template>
 
@@ -14,10 +31,20 @@
 import { getUserInfo } from '@/api/user.js'
 import { mapGetters } from 'vuex'
 import wx from 'weixin-js-sdk'
+import { Toast } from 'vant'
+
 export default {
   data() {
     return {
-      wechat: `${this.$cdn}/wx/640.gif`
+      activeNames: ['1'],
+      showShare: false,
+      options: [
+        { name: '微信', icon: 'wechat' },
+        { name: '微博', icon: 'weibo' },
+        { name: '复制链接', icon: 'link' },
+        { name: '分享海报', icon: 'poster' },
+        { name: '二维码', icon: 'qrcode' }
+      ]
     }
   },
 
@@ -41,6 +68,10 @@ export default {
       getUserInfo(params)
         .then(() => {})
         .catch(() => {})
+    },
+    onSelect(option) {
+      Toast(option.name)
+      this.showShare = false
     }
   }
 }
@@ -50,45 +81,5 @@ export default {
   background: #fff;
   height: 100vh;
   box-sizing: border-box;
-  .warpper {
-    padding: 50px 12px 12px 12px;
-    .list {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      color: #666;
-      font-size: 14px;
-      .demo-home__title {
-        margin: 0 0 6px;
-        font-size: 32px;
-        .demo-home__title img,
-        .demo-home__title span {
-          display: inline-block;
-          vertical-align: middle;
-        }
-      }
-      .item {
-        font-size: 14px;
-        line-height: 34px;
-        a {
-          text-decoration: underline;
-        }
-      }
-
-      .logo {
-        width: 120px;
-        height: 120px;
-        background: url($cdn+'/weapp/logo.png') center / contain no-repeat;
-      }
-      .wechat {
-        width: 200px;
-        height: 200px;
-        img {
-          width: 100%;
-          height: auto;
-        }
-      }
-    }
-  }
 }
 </style>
