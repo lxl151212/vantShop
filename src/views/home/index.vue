@@ -143,7 +143,7 @@ export default {
       .money-content {
         position: absolute;
         bottom: 0px;
-        right: -25%;
+        right: -26%;
       }
     }
   }
