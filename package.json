@@ -8,7 +8,9 @@
     "serve": "vue-cli-service serve --open --host 192.168.0.104",
     "build": "vue-cli-service build",
     "stage": "vue-cli-service build --mode staging",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "precommit": "stylelint css/*.scss",
+    "...": "..."
   },
   "dependencies": {
     "axios": "^0.19.2",
@@ -17,6 +19,13 @@
     "lib-flexible": "^0.3.2",
     "lodash": "^4.17.15",
     "regenerator-runtime": "^0.13.5",
+    "stylelint": "^13.3.3",
+    "stylelint-config-prettier": "^8.0.1",
+    "stylelint-config-recess-order": "^2.0.4",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-config-standard-scss": "^1.1.0",
+    "stylelint-order": "^4.0.0",
+    "stylelint-scss": "^3.17.2",
     "vant": "^2.8.1",
     "vue": "^2.6.11",
     "vue-router": "^3.1.5",
@@ -32,6 +41,7 @@
     "eslint": "^6.7.2",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-vue": "^6.1.2",
+    "husky": "^4.2.5",
     "node-sass": "^4.13.1",
     "postcss-pxtorem": "^4.0.1",
     "prettier": "^1.19.1",
@@ -40,5 +50,20 @@
     "vue-template-compiler": "^2.6.11",
     "webpack-bundle-analyzer": "^3.7.0",
     "weixin-js-sdk": "^1.6.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "lint-staged": {
+    "*.{js,vue,tsx}": [
+      "eslint .",
+      "git add"
+    ],
+    "*.{css,scss,sass}": [
+      "stylelint --fix **/*.{vue,html,css,scss,sass}",
+      "git add"
+    ]
   }
 }
