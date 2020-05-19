@@ -7,7 +7,7 @@
     <div class="card">
       <div class="card__title">
         <span>团购进度</span>
-        <p class="more-btn">
+        <p class="more-btn" @click="handlerShowPopup">
           查看更多 <img src="../../static/icon_more.png" alt="" />
         </p>
       </div>
@@ -20,13 +20,16 @@
           :key="avatar"
         />
       </div>
+      <div class="progress-box">
+        <Axis></Axis>
+      </div>
     </div>
     <div class="card detail-card">
       <div class="card__title"><span>商品详情</span></div>
       <div class="detail-info">
         <p class="detail-info__name">产品参数:</p>
         <div class="parameter">
-          <span>品牌:凯琳熙</span>
+          <span>品牌：凯琳熙</span>
           <span>型号：safha02</span>
           <span>材质：木质</span>
         </div>
@@ -50,18 +53,35 @@
         </div>
       </div>
     </div>
+    <Popup v-if="showPopup"></Popup>
   </div>
 </template>
 
 <script>
+import Popup from './Popup'
+import Axis from './Axis'
 export default {
   name: 'Card',
+  components: { Popup, Axis },
   data() {
     return {
-      imageList: [1, 2, 3, 4, 5, 6, 7]
+      imageList: [1, 2, 3, 4, 5, 6],
+      showPopup: false,
+      popPupStyle: {
+        height: 'auto',
+        width: '330px',
+        'border-radius': '12px'
+      }
     }
   },
-  methods: {}
+  methods: {
+    handlerShowPopup() {
+      this.showPopup = true
+    },
+    handlerClosePopup() {
+      this.showPopup = false
+    }
+  }
 }
 </script>
 
@@ -102,14 +122,23 @@ export default {
     .avatars {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+
       margin-top: 22px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(222, 222, 222, 1);
       .avatar {
         width: 40px;
         height: 40px;
         border: 1px solid rgba(215, 215, 215, 1);
         border-radius: 50%;
+        margin-right: 10px;
+        &:last-child {
+          margin-right: 0;
+        }
       }
+    }
+    .progress-box {
+      margin-top: 14px;
     }
     .detail-info {
       &__name {
@@ -136,6 +165,42 @@ export default {
     }
     &.detail-card {
       padding-bottom: 0;
+    }
+  }
+  .popup {
+    .title {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 15px;
+      color: #333;
+    }
+    .count-down {
+      display: flex;
+      flex-direction: column;
+      margin-top: 27px;
+      line-height: 24px;
+      text-align: center;
+      color: #e8281e;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .Popup-avatars {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 28px 20px 21px;
+      width: 100%;
+      height: 30px;
+      box-sizing: border-box;
+      &--avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+        &:last-child {
+          margin-right: 0;
+        }
+      }
     }
   }
 }

@@ -18,14 +18,11 @@
       </div>
       <div class="count-down__time">
         <div class="title">距离结束还有</div>
-        <van-count-down :time="30 * 60 * 60 * 1000">
-          <template v-slot="timeData">
-            <span class="block">{{ timeData.hours }}</span>
-            <span class="colon">:</span>
-            <span class="block">{{ timeData.minutes }}</span>
-            <span class="colon">:</span>
-            <span class="block">{{ timeData.seconds }}</span>
-          </template>
+        <van-count-down
+          :time="time"
+          format="HH : mm : ss"
+          :style="{ countDownStyle }"
+        >
         </van-count-down>
       </div>
     </div>
@@ -36,7 +33,7 @@
       <span class="title">全场包邮·急速发货·极速退款</span>
     </div>
     <GoodsCard></GoodsCard>
-    <div class="btn-box">
+    <div class="btn-box" @click="handlerPay">
       <div class="btn">参团定金（100.00元）</div>
     </div>
   </div>
@@ -52,7 +49,12 @@ export default {
   components: { Header, GoodsCard },
   data() {
     return {
-      time: 10 * 60 * 60 * 1000
+      time: 30 * 60 * 60 * 1000,
+      countDownStyle: {
+        color: '#D7261C',
+        'font-size': '16px',
+        'font-weight': 'bold'
+      }
     }
   },
 
@@ -74,6 +76,9 @@ export default {
       getUserInfo(params)
         .then(() => {})
         .catch(() => {})
+    },
+    handlerPay() {
+      console.log('====')
     }
   }
 }
@@ -178,6 +183,7 @@ export default {
     }
   }
   .btn-box {
+    z-index: 999;
     position: fixed;
     right: 0;
     bottom: 0;
@@ -185,10 +191,10 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #fff;
+    background: rgba(255, 255, 255, 1);
     height: 55px;
     padding: 0 22px;
-    box-shadow: 0px -4px 4px 0px rgba(194, 199, 218, 0.26);
+    // box-shadow: 0px -4px 4px 0px rgba(194, 199, 218, 0.26);
     .btn {
       display: flex;
       align-items: center;

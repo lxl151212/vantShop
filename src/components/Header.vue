@@ -1,6 +1,6 @@
 <template>
   <div class="header-box">
-    <div class="header">
+    <div class="header" @click="goBack">
       <img src="../../static/icon_back.png" class="back" />
 
       {{ title }}
@@ -22,7 +22,11 @@ export default {
       active: 0
     }
   },
-  methods: {}
+  methods: {
+    goBack() {
+      history.go(-1)
+    }
+  }
 }
 </script>
 

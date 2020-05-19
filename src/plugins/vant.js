@@ -14,7 +14,8 @@ import {
   SwipeItem,
   Tab,
   Tabs,
-  CountDown
+  CountDown,
+  Popup
 } from 'vant'
 Vue.use(Button)
 Vue.use(Cell)
@@ -26,5 +27,6 @@ Vue.use(CollapseItem)
 Vue.use(Swipe)
 Vue.use(SwipeItem)
 Vue.use(CountDown)
+Vue.use(Popup)
 Vue.use(Tabbar).use(TabbarItem)
 Vue.use(Tab).use(Tabs)
