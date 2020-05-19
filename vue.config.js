@@ -101,6 +101,7 @@ module.exports = {
       .set('api', resolve('src/api'))
       .set('views', resolve('src/views'))
       .set('components', resolve('src/components'))
+      .set('static', resolve('src'))
 
     /**
      * 添加CDN参数到htmlWebpackPlugin配置中

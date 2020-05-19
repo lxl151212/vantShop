@@ -13,9 +13,9 @@ export const router = [
     }
   },
   {
-    path: '/about',
-    name: 'about',
-    component: () => import('@/views/home/about'),
+    path: '/detail',
+    name: 'detail',
+    component: () => import('@/views/home/detail'),
     meta: {
       title: '关于我',
       keepAlive: false
@@ -27,7 +27,7 @@ const createRouter = () =>
   new Router({
     // mode: 'history', // 如果你是 history模式 需要配置vue.config.js publicPath
     // base: '/app/',
-    scrollBehavior: () => ({y: 0}),
+    scrollBehavior: () => ({ y: 0 }),
     routes: router
   })
 

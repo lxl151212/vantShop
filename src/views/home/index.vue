@@ -1,64 +1,76 @@
 <!-- home -->
 <template>
   <div class="app-container">
-    <van-cell icon="success" v-for="item in list" :key="item" :title="item" />
-    <van-button type="default">默认按钮</van-button>
-    <van-button type="primary">主要按钮</van-button>
-    <van-button type="info">信息按钮</van-button>
-    <van-button type="warning">警告按钮</van-button>
-    <van-button type="danger">危险按钮</van-button>
-    <div class="current-persons">当前参团人数{{ currentPersons }}</div>
-    <div class="time-axis-box">
-      <div style="height:25px">
-        <div class="person first-person">
-          <div class="content">0人</div>
-          <div class="bar lightBar"></div>
-        </div>
+    <!-- <Axis></Axis> -->
+    <Header title="首页"></Header>
+    <van-swipe
+      class="my-swipe"
+      width="100%"
+      :autoplay="3000"
+      indicator-color="#000"
+    >
+      <van-swipe-item v-for="(image, index) in images" :key="index">
+        <img :src="image" class="swiper-image" />
+      </van-swipe-item>
+    </van-swipe>
+    <div class="goods-list-box">
+      <div class="tabs fixed-tabs">
         <div
-          class="person"
-          v-for="item in personArray"
-          :key="item"
-          :style="{ width: 100 / personArray.length + '%' }"
+          class="tab-item"
+          v-for="(tabItem, tabIndex) in tabList"
+          :key="tabItem"
+          @click="clickTab(tabIndex)"
         >
-          <div class="content">{{ item + '人' }}</div>
-          <div class="bar" :class="{ lightBar: item < currentPersons }"></div>
+          <span class="title">{{ tabItem }}</span>
+          <div
+            class="border"
+            :class="{ 'current-border': tabActive === tabIndex }"
+          ></div>
         </div>
       </div>
-      <van-progress pivot-text="" color="#ee0a24" :percentage="percentage" />
-      <div style="height:25px">
-        <!-- <div class="first-money">
-          <div class="money-content">{{ 1100 + '元' }}</div>
-        </div> -->
+      <div class="goods-list">
         <div
-          class="money"
-          v-for="moneyItem in moneyArray"
-          :key="moneyItem"
-          :style="{ width: 100 / moneyArray.length + '%' }"
+          class="goods-item"
+          v-for="goodsItem in goodList"
+          :key="goodsItem"
+          @click="goToGoodsDetail"
         >
-          <div class="money-content">{{ moneyItem + '元' }}</div>
+          <img
+            src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1589794271776&di=9c95d86195d8bf01582da159c8a747cb&imgtype=0&src=http%3A%2F%2Fwww.biyebi.com%2FAttachments%2Fbaike%2F201511%2F5657c881b855b.jpg"
+            alt=""
+            class="goods-item__image"
+          />
+          <div class="goods-info">
+            <div class="detail">
+              日式木质简约风入户沙发起居室客厅多人转角室客厅多人转角
+            </div>
+            <div class="pay-price">
+              <span class="large">¥36.00</span>
+              <span>起</span>
+            </div>
+            <div class="price">¥400.00</div>
+          </div>
         </div>
       </div>
     </div>
-    <div @click="gotoAbout">页面跳转</div>
   </div>
 </template>
 
 <script>
 import { getUserName } from '@/api/user'
-
+import Axis from '@/components/Axis'
+import Header from '@/components/Header'
 export default {
+  components: { Axis, Header },
   data() {
     return {
-      list: ['Vue-cli4'],
-      currentPersons: 35,
-      total: 80,
-      personArray: [10, 20, 30, 40, 50, 60, 70, 80],
-      moneyArray: [1000, 900, 800, 700, 600, 500, 400, 300]
-    }
-  },
-  computed: {
-    percentage() {
-      return this.currentPersons * (100 / 80)
+      images: [
+        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1589794271776&di=9c95d86195d8bf01582da159c8a747cb&imgtype=0&src=http%3A%2F%2Fwww.biyebi.com%2FAttachments%2Fbaike%2F201511%2F5657c881b855b.jpg',
+        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1589794271776&di=9c95d86195d8bf01582da159c8a747cb&imgtype=0&src=http%3A%2F%2Fwww.biyebi.com%2FAttachments%2Fbaike%2F201511%2F5657c881b855b.jpg'
+      ],
+      tabActive: 0,
+      tabList: ['品牌闪购', '定制核量类'],
+      goodList: [1, 2, 3, 4, 5, 6, 7, 8]
     }
   },
   mounted() {},
@@ -73,10 +85,13 @@ export default {
         console.log(res)
       })
     },
-    gotoAbout() {
+    goToGoodsDetail() {
       this.$router.push({
-        path: '/about'
+        path: '/detail'
       })
+    },
+    clickTab(index) {
+      this.tabActive = index
     }
   }
 }
@@ -84,66 +99,102 @@ export default {
 <style lang="scss" scoped>
 .app-container {
   width: 100%;
-
-  .van-progress {
-    border-radius: 0;
+  .my-swipe {
+    .swiper-image {
+      width: 100%;
+      height: 190px;
+    }
   }
 
-  .current-persons {
-    font-size: 18px;
-  }
-
-  .time-axis-box {
-    padding: 0 20px;
-    margin: 30px 0;
-    position: relative;
-
-    .person {
-      float: left;
-      text-align: center;
-      position: relative;
-      height: 25px;
-      .content {
-        position: absolute;
-        bottom: 0px;
-        height: 25px;
-        right: -15%;
+  .goods-list-box {
+    margin: 0 0 9px;
+    .tabs {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 96px;
+      font-size: 16px;
+      color: #333;
+      font-weight: 500;
+      padding-top: 14px;
+      // &.fixed-tabs {
+      //   background: #fff;
+      //   position: fixed;
+      //   top: 0;
+      //   right: 0;
+      //   left: 0;
+      // }
+      .tab-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
       }
-      .bar {
-        position: absolute;
-        bottom: 0px;
-        right: 0;
-        border-right: 2px solid red;
-        height: 8px;
-        background: #999;
-
-        &.lightBar {
-          background: red;
-        }
+      .title {
+        padding-bottom: 11px;
       }
 
-      &.first-person {
-        margin-left: 0px;
-        .content {
-          width: 20px;
-          right: -10px;
-        }
-        .bar {
-          right: -2px;
+      .border {
+        width: 40px;
+        height: 4px;
+        background: transparent;
+        border-radius: 4px;
+        &.current-border {
+          background: linear-gradient(
+            -83deg,
+            rgba(255, 211, 35, 0.38) 0%,
+            rgba(255, 87, 4, 1) 100%
+          );
         }
       }
     }
+    .goods-list {
+      display: flex;
+      margin: 7px 11px 0;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      .goods-item {
+        margin-top: 10px;
+        background: #fff;
+        width: 171px;
+        border-radius: 0px 0px 5px 5px;
 
-    .money {
-      float: left;
-      text-align: center;
-      position: relative;
-      height: 25px;
-
-      .money-content {
-        position: absolute;
-        bottom: 0px;
-        right: -26%;
+        &__image {
+          width: 100%;
+          height: 166px;
+          border-radius: 5px 5px 0px 0px;
+        }
+        .goods-info {
+          padding: 12px 11px 11px;
+          .detail {
+            font-size: 12px;
+            color: #333;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            font-weight: 500;
+          }
+          .pay-price {
+            padding: 11px 0 6px;
+            font-size: 9px;
+            color: #e8281e;
+            font-weight: bold;
+            .large {
+              padding-right: 5px;
+              font-size: 14px;
+            }
+          }
+          .price {
+            font-size: 10px;
+            color: #999999;
+            text-decoration: line-through;
+            font-weight: 400;
+          }
+        }
       }
     }
   }
