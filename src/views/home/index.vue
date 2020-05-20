@@ -14,20 +14,22 @@
       </van-swipe-item>
     </van-swipe>
     <div class="goods-list-box">
-      <div class="tabs fixed-tabs">
-        <div
-          class="tab-item"
-          v-for="(tabItem, tabIndex) in tabList"
-          :key="tabItem"
-          @click="clickTab(tabIndex)"
-        >
-          <span class="title">{{ tabItem }}</span>
+      <sticky :sticky-top="0">
+        <div class="tabs fixed-tabs">
           <div
-            class="border"
-            :class="{ 'current-border': tabActive === tabIndex }"
-          ></div>
+            class="tab-item"
+            v-for="(tabItem, tabIndex) in tabList"
+            :key="tabItem"
+            @click="clickTab(tabIndex)"
+          >
+            <span class="title">{{ tabItem }}</span>
+            <div
+              class="border"
+              :class="{ 'current-border': tabActive === tabIndex }"
+            ></div>
+          </div>
         </div>
-      </div>
+      </sticky>
       <div class="goods-list">
         <div
           class="goods-item"
@@ -60,8 +62,9 @@
 import { getUserName } from '@/api/user'
 import Axis from '@/components/Axis'
 import Header from '@/components/Header'
+import Sticky from '@/components/Sticky'
 export default {
-  components: { Axis, Header },
+  components: { Axis, Header, Sticky },
   data() {
     return {
       images: [
