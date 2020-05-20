@@ -16,13 +16,12 @@
       </div>
       <div class="order-info">
         <div class="name">
-          <img src="../../../static/pic_mall.png" alt="" />全友家私旗舰店
+          <img src="../../../static/pic_mall.png" />全友家私旗舰店
         </div>
         <div class="order-info__detail">
           <div class="img-box">
             <img
               src="http://img4.imgtn.bdimg.com/it/u=3922192529,3005968893&fm=26&gp=0.jpg"
-              alt=""
             />
           </div>
           <div class="order-info__detail--info">

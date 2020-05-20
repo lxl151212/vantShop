@@ -74,6 +74,14 @@ export const router = [
     meta: {
       keepAlive: false
     }
+  },
+  {
+    path: '/orderDetail',
+    name: 'orderDetail',
+    component: () => import('@/views/order/detail'),
+    meta: {
+      keepAlive: false
+    }
   }
 ]
 

@@ -2,7 +2,6 @@
   <div class="header-box">
     <div class="header" @click="goBack">
       <img src="../../static/icon_back.png" class="back" />
-
       {{ title }}
     </div>
   </div>

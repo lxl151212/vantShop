@@ -15,9 +15,21 @@ p{
   padding: 0;
   margin: 0;
 }
-em{
+em,b{
   font-style: normal;
 }
 button{
   border: none;
+}
+.gray-input{
+  display: flex;
+  margin: 0 auto;
+  padding: 0 15px;
+  width: 345px;
+  height: 44px;
+  border: none;
+  background: rgba(240, 240, 240, 1);
+  border-radius: 8px;
+  font-size: 15px;
+  color: #999;
 }

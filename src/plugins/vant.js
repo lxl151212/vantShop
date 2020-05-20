@@ -17,7 +17,8 @@ import {
   CountDown,
   SwipeCell,
   Icon,
-  Popup
+  Popup,
+  Tag
 } from 'vant'
 Vue.use(Button)
 Vue.use(Cell)
@@ -32,5 +33,6 @@ Vue.use(CountDown)
 Vue.use(Popup)
 Vue.use(SwipeCell)
 Vue.use(Icon)
+Vue.use(Tag)
 Vue.use(Tabbar).use(TabbarItem)
 Vue.use(Tab).use(Tabs)

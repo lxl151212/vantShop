@@ -18,34 +18,77 @@
               <img src="../../../static/icon_Selected.png" class="selected" />
             </div>
           </div>
-          <div class="bind-bank" @click="GoToAddBankInfo">
+          <div class="bind-bank" @click="GoToSelectBank">
             <span>选择银行卡</span
             ><img src="../../../static/icon_more.png" alt="" />
           </div>
         </div>
       </div>
     </div>
-
-    <button>确认支付</button>
+    <button @click="confirmPay" class="modal-button">确认支付</button>
+    <div class="payment-modal">
+      <van-popup
+        v-model="showPaymentModal"
+        closeable
+        close-icon="close"
+        position="bottom"
+        :style="{ height: '55%', borderRadius: '8px 8px 0 0' }"
+      >
+        <div class="title">请支付</div>
+        <div class="select-bank" @click="GoToSelectBank">
+          <span>选择支付银行卡</span>
+          <img src="../../../static/icon_right.png" />
+        </div>
+        <div class="selected-bank modal-selected-bank">
+          <div class="selected-bank__info">
+            <div class="left">
+              <img
+                src="../../../static/pic_bank.png"
+                alt=""
+              />工商银行储蓄卡(5569)
+            </div>
+            <img src="../../../static/icon_Selected.png" class="selected" />
+          </div>
+        </div>
+        <input type="text" class="gray-input" placeholder="请输入支付验证码" />
+        <div class="get-code" @click="goToOrderDetail">获取支付验证码</div>
+        <button>确认支付</button>
+      </van-popup>
+    </div>
+    <AuthModal :showAuthModal="showAuthModal"></AuthModal>
+    <AddMobile></AddMobile>
   </div>
 </template>
 
 <script>
 import Header from '@/components/Header'
+import AuthModal from './components/AuthModal'
+import AddMobile from './components/AddMobile'
 export default {
   name: 'payment',
-  components: { Header },
+  components: { Header, AuthModal, AddMobile },
   props: {},
   data() {
     return {
-      active: 0
+      showAuthModal: false,
+      showPaymentModal: true
     }
   },
   methods: {
-    GoToAddBankInfo() {
+    GoToSelectBank() {
       this.$router.push({
-        // path: '/addBankInfo'
         path: '/addBank'
+      })
+    },
+    confirmPay() {
+      this.showAuthModal = true
+    },
+    closeAuthModal() {
+      this.showAuthModal = false
+    },
+    goToOrderDetail() {
+      this.$router.push({
+        path: '/orderDetail'
       })
     }
   }
@@ -86,29 +129,6 @@ export default {
         font-weight: 400;
       }
       .bank-card {
-        .selected-bank {
-          &__info {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            .left {
-              display: flex;
-              align-items: center;
-              font-size: 15px;
-              color: #333;
-              font-weight: 500;
-              img {
-                width: 24px;
-                height: 24px;
-                margin-right: 12px;
-              }
-            }
-            .selected {
-              width: 18px;
-              height: 18px;
-            }
-          }
-        }
         .bind-bank {
           display: flex;
           align-items: center;
@@ -125,6 +145,32 @@ export default {
       }
     }
   }
+  .selected-bank {
+    &.modal-selected-bank {
+      padding: 0 15px;
+    }
+    &__info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .left {
+        display: flex;
+        align-items: center;
+        font-size: 15px;
+        color: #333;
+        font-weight: 500;
+        img {
+          width: 24px;
+          height: 24px;
+          margin-right: 12px;
+        }
+      }
+      .selected {
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
   button {
     position: fixed;
     bottom: 0;
@@ -136,6 +182,36 @@ export default {
     color: #fff;
     font-size: 18px;
     font-weight: 500;
+  }
+  .payment-modal {
+    .title {
+      margin-top: 14px;
+      font-size: 18px;
+      color: #333;
+      font-weight: bold;
+      text-align: center;
+    }
+    .select-bank {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 38px 15px 36px;
+      font-size: 15px;
+      color: #333;
+      font-weight: 500;
+      img {
+        width: 14px;
+        height: 14px;
+      }
+    }
+    input {
+      margin-top: 31px;
+    }
+    .get-code {
+      padding: 10px 15px;
+      text-align: right;
+      color: #e8281e;
+    }
   }
 }
 </style>

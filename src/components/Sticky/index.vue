@@ -1,8 +1,15 @@
 <template>
-  <div :style="{height:height+'px',zIndex:zIndex}">
+  <div :style="{ height: height + 'px', zIndex: zIndex }">
     <div
       :class="className"
-      :style="{top:(isSticky ? stickyTop +'px' : ''),zIndex:zIndex,position:position,background:background,width:width,height:height+'px'}"
+      :style="{
+        top: isSticky ? stickyTop + 'px' : '',
+        zIndex: zIndex,
+        position: position,
+        background: background,
+        width: width,
+        height: height + 'px'
+      }"
     >
       <slot>
         <div>sticky</div>
@@ -25,7 +32,7 @@ export default {
     },
     className: {
       type: String,
-      default: '',
+      default: ''
     }
   },
   data() {
