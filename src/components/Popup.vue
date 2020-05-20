@@ -41,7 +41,6 @@ export default {
   computed: {},
   data() {
     return {
-      active: 0,
       countDownStyle: {
         color: '#D7261C',
         'font-size': '18px',

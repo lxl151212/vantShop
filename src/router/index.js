@@ -8,7 +8,6 @@ export const router = [
     name: 'index',
     component: () => import('@/views/home/index'), // 路由懒加载
     meta: {
-      title: '首页', // 页面标题
       keepAlive: false // keep-alive 标识
     }
   },
@@ -17,7 +16,30 @@ export const router = [
     name: 'detail',
     component: () => import('@/views/home/detail'),
     meta: {
-      title: '关于我',
+      keepAlive: false
+    }
+  },
+  {
+    path: '/orderConfirm',
+    name: 'orderConfirm',
+    component: () => import('@/views/order/confirm'),
+    meta: {
+      keepAlive: false
+    }
+  },
+  {
+    path: '/basic',
+    name: 'basic',
+    component: () => import('@/views/basic/index'),
+    meta: {
+      keepAlive: false
+    }
+  },
+  {
+    path: '/payment',
+    name: 'payment',
+    component: () => import('@/views/order/payment'),
+    meta: {
       keepAlive: false
     }
   }

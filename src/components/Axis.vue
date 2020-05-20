@@ -51,7 +51,7 @@ export default {
     return {
       currentPersons: 35,
       total: 80,
-      personArray: [10, 20, 30, 40, 50, 60, 70, 90],
+      personArray: [10, 20, 30, 40, 50, 60, 70, 80],
       moneyArray: [
         { num: 10, money: 1000 },
         { num: 20, money: 900 },

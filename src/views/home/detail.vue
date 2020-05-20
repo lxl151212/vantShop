@@ -2,7 +2,14 @@
 <template>
   <div class="goods-detail">
     <Header title="商品详情"></Header>
-    <div class="top"></div>
+    <div class="top">
+      <div class="go-back">
+        <img src="../../../static/icon_back_circle.png" alt="" />
+      </div>
+      <div class="share">
+        <img src="../../../static/icon_share_black.png" alt="" />
+      </div>
+    </div>
     <div class="count-down">
       <div class="count-down__info">
         <div class="pay-price-box">
@@ -21,7 +28,7 @@
         <van-count-down
           :time="time"
           format="HH : mm : ss"
-          :style="{ countDownStyle }"
+          :style="countDownStyle"
         >
         </van-count-down>
       </div>
@@ -33,7 +40,7 @@
       <span class="title">全场包邮·急速发货·极速退款</span>
     </div>
     <GoodsCard></GoodsCard>
-    <div class="btn-box" @click="handlerPay">
+    <div class="btn-box" @click="handlerJoin">
       <div class="btn">参团定金（100.00元）</div>
     </div>
   </div>
@@ -77,8 +84,10 @@ export default {
         .then(() => {})
         .catch(() => {})
     },
-    handlerPay() {
-      console.log('====')
+    handlerJoin() {
+      this.$router.push({
+        path: '/orderConfirm'
+      })
     }
   }
 }
@@ -88,9 +97,32 @@ export default {
   position: relative;
   padding-bottom: 55px;
   .top {
+    position: relative;
     width: 100%;
     height: 286px;
-    background: green;
+    background: #666;
+    .go-back {
+      position: absolute;
+      top: 10px;
+      left: 8px;
+      width: 30px;
+      height: 30px;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .share {
+      position: absolute;
+      top: 10px;
+      right: 8px;
+      width: 30px;
+      height: 30px;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
   }
   .count-down {
     box-sizing: border-box;
