@@ -10,7 +10,7 @@
       </div>
     </div>
 
-    <button>确认支付</button>
+    <button @click="goToAddBank">确认支付</button>
   </div>
 </template>
 
@@ -26,8 +26,10 @@ export default {
     }
   },
   methods: {
-    goBack() {
-      history.go(-1)
+    goToAddBank() {
+      this.$router.push({
+        path: '/addBank'
+      })
     }
   }
 }
