@@ -2,8 +2,12 @@
   <div class="add-bank">
     <Header title="绑定银行卡"></Header>
     <Section>
-      <van-swipe-cell v-for="(card, index) in cards" :key="index" :before-close="beforeClose">
-        <div class="card" :class="{'js': card.name === '中国建设银行'}">
+      <van-swipe-cell
+        v-for="(card, index) in cards"
+        :key="index"
+        :before-close="beforeClose"
+      >
+        <div class="card" :class="{ js: card.name === '中国建设银行' }">
           <div class="icon-add-name">
             <div class="card-icon"></div>
             <div class="card-name">
@@ -12,15 +16,26 @@
             </div>
           </div>
           <div class="card-number">
-            <span class="star">****  ****  ****</span> {{card.num}}
+            <span class="star">**** **** ****</span> {{ card.num }}
           </div>
         </div>
         <template #right>
-          <van-icon name="clear" color="#999" size="50" class="delete-btn" @click="handleDelect(card, index)"/>
+          <!-- <van-icon
+            name="delete"
+            color="#999"
+            size="50"
+            class="delete-btn"
+            @click="handleDelect(card, index)"
+          /> -->
+          <img
+            src="../../../static/icon_delete.png"
+            alt=""
+            class="delete-btn"
+          />
         </template>
       </van-swipe-cell>
-      <div class="add-card-container">
-        <van-icon name="add" color="#E8281E" size="35"/>
+      <div class="add-card-container" @click="goToAddBank">
+        <van-icon name="add" color="#E8281E" size="30" />
         <div class="add-card-text">添加银行卡</div>
       </div>
     </Section>
@@ -29,7 +44,7 @@
 
 <script>
 import Header from '@/components/Header'
-import { Dialog } from 'vant';
+import { Dialog } from 'vant'
 export default {
   name: 'addBank',
   components: { Header },
@@ -54,20 +69,25 @@ export default {
         case 'left':
         case 'cell':
         case 'outside':
-          instance.close();
-          break;
+          instance.close()
+          break
         case 'right':
           Dialog.confirm({
-            message: '确定删除吗？',
+            message: '确定删除吗？'
           }).then(() => {
             this.cards.splice(this.delectIndex, 1)
-            instance.close();
-          });
-          break;
+            instance.close()
+          })
+          break
       }
     },
     handleDelect(item, index) {
       this.delectIndex = index
+    },
+    goToAddBank() {
+      this.$router.push({
+        path: '/addBankInfo'
+      })
     }
   }
 }
@@ -94,52 +114,55 @@ export default {
     height: 20px;
   }
 }
-Section{
+section {
   padding: 10px;
-  .card{
+  .card {
     margin-bottom: 10px;
     height: 150px;
-    background: #fe6161;
+    background: #e75f5f;
     border-radius: 12px;
     color: #fff;
     padding-left: 15px;
     padding-top: 15px;
-    .icon-add-name{
-      margin-bottom: 35px;
-      overflow: hidden;
-      .card-icon{
-        float: left;
+    .icon-add-name {
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+      .card-icon {
         width: 50px;
         height: 50px;
         background: #fff;
         border-radius: 50%;
         margin-right: 20px;
       }
-      .card-name{
+      .card-name {
         font-size: 12px;
         padding-top: 3px;
-        .name{
-          font-size: 16px;
+        font-weight: 500;
+        .name {
+          font-size: 15px;
           margin-bottom: 3px;
         }
       }
     }
-    .card-number{
-      .star{
+    .card-number {
+      .star {
         font-size: 30px;
         vertical-align: text-top;
       }
       font-size: 22px;
     }
   }
-  .card.js{
-    background: blue;
+  .card.js {
+    background: #415af1;
   }
-  .delete-btn{
+  .delete-btn {
+    width: 50px;
+    height: 50px;
     margin-top: 50px;
-    margin-left: 8px
+    margin-left: 7px;
   }
-  .add-card-container{
+  .add-card-container {
     margin-top: 2px;
     width: 100%;
     height: 90px;
@@ -147,8 +170,8 @@ Section{
     border-radius: 12px;
     text-align: center;
     padding-top: 15px;
-    .add-card-text{
-      color: #666;
+    .add-card-text {
+      color: #333;
       margin-top: 5px;
     }
   }

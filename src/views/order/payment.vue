@@ -6,11 +6,27 @@
       <div class="order-num">订单编号&nbsp;&nbsp;12345678912345678901</div>
       <div class="pay-methods">
         <div class="title">支付方式</div>
-        <div class="bank-card"></div>
+        <div class="bank-card">
+          <div class="selected-bank">
+            <div class="selected-bank__info">
+              <div class="left">
+                <img
+                  src="../../../static/pic_bank.png"
+                  alt=""
+                />工商银行储蓄卡(5569)
+              </div>
+              <img src="../../../static/icon_Selected.png" class="selected" />
+            </div>
+          </div>
+          <div class="bind-bank" @click="GoToAddBankInfo">
+            <span>选择银行卡</span
+            ><img src="../../../static/icon_more.png" alt="" />
+          </div>
+        </div>
       </div>
     </div>
 
-    <button @click="goToAddBank">确认支付</button>
+    <button>确认支付</button>
   </div>
 </template>
 
@@ -26,8 +42,9 @@ export default {
     }
   },
   methods: {
-    goToAddBank() {
+    GoToAddBankInfo() {
       this.$router.push({
+        // path: '/addBankInfo'
         path: '/addBank'
       })
     }
@@ -67,6 +84,44 @@ export default {
         font-size: 15px;
         color: #999;
         font-weight: 400;
+      }
+      .bank-card {
+        .selected-bank {
+          &__info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .left {
+              display: flex;
+              align-items: center;
+              font-size: 15px;
+              color: #333;
+              font-weight: 500;
+              img {
+                width: 24px;
+                height: 24px;
+                margin-right: 12px;
+              }
+            }
+            .selected {
+              width: 18px;
+              height: 18px;
+            }
+          }
+        }
+        .bind-bank {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 30px 0 0 35px;
+          font-size: 15px;
+          color: #333;
+          font-weight: 500;
+          img {
+            width: 14px;
+            height: 12px;
+          }
+        }
       }
     }
   }

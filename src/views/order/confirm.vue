@@ -2,7 +2,7 @@
   <div class="confirm-box">
     <Header title="确认订单"></Header>
     <div class="content">
-      <div class="address-info">
+      <div class="address-info" @click="goToOrderList">
         <div class="address-icon">
           <img src="../../../static/pic__address.png" alt="" />
         </div>
@@ -61,6 +61,11 @@ export default {
     goToPay() {
       this.$router.push({
         path: '/payment'
+      })
+    },
+    goToOrderList() {
+      this.$router.push({
+        path: '/orderList'
       })
     }
   }

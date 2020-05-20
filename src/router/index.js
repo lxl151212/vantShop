@@ -50,6 +50,30 @@ export const router = [
     meta: {
       keepAlive: false
     }
+  },
+  {
+    path: '/addBankInfo',
+    name: 'addBankInfo',
+    component: () => import('@/views/order/addBankInfo'),
+    meta: {
+      keepAlive: false
+    }
+  },
+  {
+    path: '/addBankInfo',
+    name: 'addBankInfo',
+    component: () => import('@/views/order/addBankInfo'),
+    meta: {
+      keepAlive: false
+    }
+  },
+  {
+    path: '/orderList',
+    name: 'orderList',
+    component: () => import('@/views/order/list'),
+    meta: {
+      keepAlive: false
+    }
   }
 ]
 
