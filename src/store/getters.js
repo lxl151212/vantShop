@@ -1,5 +1,5 @@
 const getters = {
   userName: state => state.app.userName,
-  selectedBankInfo: state => state.bankCardInfo.selectedBankInfo
+  selectedBankInfo: state => state.bankCard.selectedBankInfo
 }
 export default getters

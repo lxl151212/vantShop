@@ -99,14 +99,14 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['userName', 'bankCardInfo'])
+    ...mapGetters(['userName', 'selectedBankInfo'])
   },
 
   created() {},
 
   mounted() {
     this.initData()
-    console.log(this.bankCardInfo)
+    console.log(this.selectedBankInfo)
   },
 
   methods: {
