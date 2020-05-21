@@ -41,7 +41,9 @@ export default {
     clickAllow() {
       this.$parent.closeAuthModal('点了允许')
     },
-    clickOverlay() {}
+    clickOverlay() {
+      this.$parent.closeAuthModal()
+    }
   }
 }
 </script>
