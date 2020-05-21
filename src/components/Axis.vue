@@ -49,9 +49,9 @@ export default {
   name: 'Axis',
   data() {
     return {
-      currentPersons: 35,
+      currentPersons: 90,
       total: 80,
-      personArray: [10, 20, 30, 40, 50, 60, 70, 80],
+      personArray: [10, 20, 30, 40, 50, 60, 70, 90],
       moneyArray: [
         { num: 10, money: 1000 },
         { num: 20, money: 900 },
@@ -60,13 +60,24 @@ export default {
         { num: 50, money: 600 },
         { num: 60, money: 500 },
         { num: 70, money: 400 },
-        { num: 80, money: 300 }
+        { num: 90, money: 300 }
       ]
     }
   },
   computed: {
     percentage() {
-      return this.currentPersons * (100 / 80)
+      if (this.currentPersons > 70 && this.currentPersons <= 75) {
+        return this.currentPersons * (100 / 82)
+      } else if (this.currentPersons > 75 && this.currentPersons <= 81) {
+        return this.currentPersons * (100 / 85)
+      } else if (this.currentPersons > 81 && this.currentPersons <= 85) {
+        return this.currentPersons * (100 / 88)
+      } else if (this.currentPersons > 85 && this.currentPersons <= 90) {
+        return this.currentPersons * (100 / 90)
+      } else {
+        return this.currentPersons * (100 / 80)
+      }
+
     },
     perAxis() {
       return 100 / this.personArray.length
