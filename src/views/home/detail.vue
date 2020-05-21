@@ -6,7 +6,7 @@
       <div class="go-back">
         <img src="../../../static/icon_back_circle.png" alt="" />
       </div>
-      <div class="share">
+      <div class="share" @click="openShare">
         <img src="../../../static/icon_share_black.png" alt="" />
       </div>
     </div>
@@ -43,6 +43,30 @@
     <div class="btn-box" @click="handlerJoin">
       <div class="btn">参团定金(100.00元)</div>
     </div>
+    <div class="share-box">
+      <van-popup
+        v-model="showShareModal"
+        position="bottom"
+        round
+        :style="{ height: '36%', borderRadius: '8px 8px 0 0' }"
+      >
+        <div class="title">分享到</div>
+        <div class="tips">
+          组团做家装，人多价更低，将此拼团信息分享给更多朋友吧！
+        </div>
+        <div class="share-icon">
+          <div
+            class="item"
+            v-for="(shareItem, index) in shareList"
+            :key="index"
+          >
+            <img :src="shareItem.icon" />
+            <div class="text">{{ shareItem.text }}</div>
+          </div>
+        </div>
+        <div class="cancel-btn" @click="cancelShare">取消</div>
+      </van-popup>
+    </div>
   </div>
 </template>
 
@@ -61,7 +85,14 @@ export default {
         color: '#D7261C',
         'font-size': '16px',
         'font-weight': 'bold'
-      }
+      },
+      showShareModal: false,
+      shareList: [
+        { icon: '../../../static/icon_wechat.png', text: '微信' },
+        { icon: '../../../static/icon_circle_of_friends.png', text: '朋友圈' },
+        { icon: '../../../static/icon_qq.png', text: 'QQ' },
+        { icon: '../../../static/icon_space.png', text: '空间' }
+      ]
     }
   },
 
@@ -88,6 +119,12 @@ export default {
       this.$router.push({
         path: '/orderConfirm'
       })
+    },
+    openShare() {
+      this.showShareModal = true
+    },
+    cancelShare() {
+      this.showShareModal = false
     }
   }
 }
@@ -238,6 +275,39 @@ export default {
       color: #fff;
       font-size: 18px;
       font-weight: 500;
+    }
+  }
+  .share-box {
+    text-align: center;
+    .title {
+      font-size: 17px;
+      color: #333;
+      padding: 19px 0 15px;
+    }
+    .tips {
+      padding-bottom: 25px;
+      font-size: 12px;
+      color: #666;
+    }
+    .share-icon {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      img {
+        width: 45px;
+        height: 45px;
+      }
+      .text {
+        font-size: 13px;
+        color: #666;
+        padding-top: 16px;
+      }
+    }
+    .cancel-btn {
+      padding: 20px 0;
+      font-size: 17px;
+      color: #999;
     }
   }
 }

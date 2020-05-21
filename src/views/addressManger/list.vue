@@ -16,6 +16,9 @@
         <div class="address">陕西省西安市未央区龙首北路怡兴花园4幢 101号</div>
         <img src="../../../static/icon_edit.png" alt="" />
       </div>
+      <div class="add-btn">
+        <img src="../../../static/icon_ new.png" alt="" />添加收货地址
+      </div>
     </div>
     <!-- <div class="empty-image">
       <img src="../../../static/no_address.png" alt="" />
@@ -85,6 +88,26 @@ export default {
         right: 15px;
         top: 50%;
         margin-top: -8px;
+        width: 15px;
+        height: 15px;
+      }
+    }
+    .add-btn {
+      position: fixed;
+      bottom: 18px;
+      left: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 345px;
+      height: 44px;
+      background: #333;
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 22px;
+      img {
+        margin-right: 5px;
         width: 15px;
         height: 15px;
       }

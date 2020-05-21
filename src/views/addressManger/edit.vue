@@ -14,7 +14,7 @@
 
 <script>
 import Header from '@/components/Header'
-import { Toast } from 'vant';
+import { Toast } from 'vant'
 import areaList from '../../assets/area'
 export default {
   name: 'editAdress',
@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     onSave() {
-      Toast('save');
+      Toast('save')
     }
   }
 }
