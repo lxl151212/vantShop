@@ -32,7 +32,7 @@ export default {
     }
   },
   watch: {
-    showAuthModal(val) {
+    showAuthModal() {
       this.authModalVisible = this.showAuthModal
     }
   },
