@@ -1,14 +1,27 @@
 <!-- home -->
 <template>
   <div class="goods-detail">
-    <Header title="商品详情"></Header>
+    <!-- <Header title="商品详情"></Header> -->
     <div class="top">
-      <div class="go-back">
+      <div class="go-back" @click="goBack">
         <img src="../../../static/icon_back_circle.png" alt="" />
       </div>
       <div class="share" @click="openShare">
         <img src="../../../static/icon_share_black.png" alt="" />
       </div>
+      <div class="play-btn" @click="goToReviewPic">
+        <img src="../../../static/ico_shipinbofang.png" alt="" />
+      </div>
+      <van-swipe
+        class="my-swipe"
+        width="100%"
+        :autoplay="3000"
+        indicator-color="#000"
+      >
+        <van-swipe-item v-for="(image, index) in images" :key="index">
+          <img :src="image" class="swiper-image" />
+        </van-swipe-item>
+      </van-swipe>
     </div>
     <div class="count-down">
       <div class="count-down__info">
@@ -82,10 +95,10 @@
 // 请求接口
 import { getUserInfo } from '@/api/user.js'
 import { mapGetters } from 'vuex'
-import Header from '@/components/Header'
+// import Header from '@/components/Header'
 import GoodsCard from '@/components/Card'
 export default {
-  components: { Header, GoodsCard },
+  components: { GoodsCard },
   data() {
     return {
       time: 30 * 60 * 60 * 1000,
@@ -94,7 +107,11 @@ export default {
         'font-size': '16px',
         'font-weight': 'bold'
       },
-      showShareModal: false
+      showShareModal: false,
+      images: [
+        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1589794271776&di=9c95d86195d8bf01582da159c8a747cb&imgtype=0&src=http%3A%2F%2Fwww.biyebi.com%2FAttachments%2Fbaike%2F201511%2F5657c881b855b.jpg',
+        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1589794271776&di=9c95d86195d8bf01582da159c8a747cb&imgtype=0&src=http%3A%2F%2Fwww.biyebi.com%2FAttachments%2Fbaike%2F201511%2F5657c881b855b.jpg'
+      ]
     }
   },
 
@@ -128,25 +145,35 @@ export default {
     },
     cancelShare() {
       this.showShareModal = false
+    },
+    goToReviewPic() {
+      console.log('预览图片')
+    },
+    goBack() {
+      history.go(-1)
     }
   }
 }
 </script>
 <style lang="scss" scoped>
+.my-swipe .van-swipe-item img {
+  width: 100%;
+  height: 310px;
+}
 .goods-detail {
   position: relative;
   padding-bottom: 55px;
   .top {
     position: relative;
     width: 100%;
-    height: 286px;
-    background: #666;
+    height: 310px;
     .go-back {
       position: absolute;
       top: 10px;
       left: 8px;
       width: 30px;
       height: 30px;
+      z-index: 99;
       img {
         width: 100%;
         height: 100%;
@@ -158,6 +185,20 @@ export default {
       right: 8px;
       width: 30px;
       height: 30px;
+      z-index: 99;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .play-btn {
+      position: absolute;
+      z-index: 99;
+      width: 50px;
+      height: 50px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       img {
         width: 100%;
         height: 100%;

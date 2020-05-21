@@ -1,7 +1,5 @@
-<!-- home -->
 <template>
   <div class="app-container">
-    <!-- <Axis></Axis> -->
     <Header title="首页"></Header>
     <van-swipe
       class="my-swipe"
@@ -60,11 +58,10 @@
 
 <script>
 import { getUserName } from '@/api/user'
-import Axis from '@/components/Axis'
 import Header from '@/components/Header'
 import Sticky from '@/components/Sticky'
 export default {
-  components: { Axis, Header, Sticky },
+  components: { Header, Sticky },
   data() {
     return {
       images: [
