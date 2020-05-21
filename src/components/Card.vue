@@ -60,6 +60,7 @@
 <script>
 import Popup from './Popup'
 import Axis from './Axis'
+import { forMatTime } from '@/utils/fomatDate'
 export default {
   name: 'Card',
   components: { Popup, Axis },
@@ -81,6 +82,9 @@ export default {
     handlerClosePopup() {
       this.showPopup = false
     }
+  },
+  mounted() {
+    console.log(forMatTime(1572502840091))
   }
 }
 </script>

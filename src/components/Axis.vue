@@ -5,10 +5,6 @@
     </div>
     <div class="time-axis-box">
       <div style="height:25px">
-        <!-- <div class="person first-person">
-          <div class="content">1人</div>
-          <div class="bar lightBar"></div>
-        </div> -->
         <div
           class="person"
           v-for="item in personArray"
@@ -23,9 +19,6 @@
       </div>
       <van-progress pivot-text="" color="#ee0a24" :percentage="percentage" />
       <div style="height:25px">
-        <!-- <div class="first-money">
-          <div class="money-content">{{ 1100 + '元' }}</div>
-        </div> -->
         <div
           class="money"
           v-for="moneyItem in moneyArray"
@@ -49,17 +42,16 @@ export default {
   name: 'Axis',
   data() {
     return {
-      currentPersons: 90,
-      total: 80,
-      personArray: [10, 20, 30, 40, 50, 60, 70, 90],
+      currentPersons: 40,
+      personArray: [10, 20, 30, 50, 60, 70, 80, 90],
       moneyArray: [
         { num: 10, money: 1000 },
         { num: 20, money: 900 },
         { num: 30, money: 800 },
-        { num: 40, money: 700 },
-        { num: 50, money: 600 },
-        { num: 60, money: 500 },
-        { num: 70, money: 400 },
+        { num: 50, money: 700 },
+        { num: 60, money: 600 },
+        { num: 70, money: 500 },
+        { num: 80, money: 400 },
         { num: 90, money: 300 }
       ]
     }
@@ -77,13 +69,13 @@ export default {
       } else {
         return this.currentPersons * (100 / 80)
       }
-
     },
     perAxis() {
       return 100 / this.personArray.length
     }
   },
-  methods: {}
+  methods: {},
+  mounted() {}
 }
 </script>
 
