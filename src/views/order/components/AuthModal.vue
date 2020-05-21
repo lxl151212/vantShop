@@ -1,7 +1,7 @@
 <template>
   <div class="auth-modal">
     <van-popup
-      v-model="showAuthModal"
+      v-model="authModalVisible"
       round
       position="bottom"
       :style="{ height: '40%', borderRadius: '8px 8px 0 0' }"
@@ -31,8 +31,15 @@ export default {
       type: Boolean
     }
   },
+  watch: {
+    showAuthModal(val) {
+      this.authModalVisible = this.showAuthModal
+    }
+  },
   data() {
-    return {}
+    return {
+      authModalVisible: false
+    }
   },
   methods: {
     clickRefuse() {
@@ -41,7 +48,9 @@ export default {
     clickAllow() {
       this.$parent.closeAuthModal('点了允许')
     },
-    clickOverlay() {}
+    clickOverlay() {
+      this.$parent.closeAuthModal()
+    }
   }
 }
 </script>
