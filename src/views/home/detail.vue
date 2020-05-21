@@ -41,7 +41,7 @@
     </div>
     <GoodsCard></GoodsCard>
     <div class="btn-box" @click="handlerJoin">
-      <div class="btn">参团定金（100.00元）</div>
+      <div class="btn">参团定金(100.00元)</div>
     </div>
   </div>
 </template>
@@ -226,7 +226,7 @@ export default {
     background: rgba(255, 255, 255, 1);
     height: 55px;
     padding: 0 22px;
-    // box-shadow: 0px -4px 4px 0px rgba(194, 199, 218, 0.26);
+    box-shadow: 0px -4px 4px 0px rgba(194, 199, 218, 0.26);
     .btn {
       display: flex;
       align-items: center;

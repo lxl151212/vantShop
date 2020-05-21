@@ -12,18 +12,22 @@
       class="order-container"
       v-for="(order, index) in orderList"
       :key="index"
+      @click="goToOrderDetail"
     >
       <div class="header-container">
-        <div style="font-size: 15px;font-weight: bold;float: left;">
-          <van-icon name="send-gift-o" size="20" /><span
-            style="vertical-align: top"
-            >全友家私旗舰店</span
-          >
+        <div class="left">
+          <img src="../../../static/pic_mall.png" alt="" class="image" />
+          <span style="vertical-align: top">全友家私旗舰店</span>
         </div>
         <div class="order-type">{{ order.type }}</div>
       </div>
       <div class="section-container">
-        <div class="img"></div>
+        <div class="img-box">
+          <img
+            src="http://img4.imgtn.bdimg.com/it/u=3922192529,3005968893&fm=26&gp=0.jpg"
+            alt=""
+          />
+        </div>
         <div class="content">
           <div class="title">{{ order.title }}</div>
           <div class="describe">
@@ -96,15 +100,17 @@ export default {
     this.orderList = this.copyOrderList
   },
   methods: {
-    goBack() {
-      history.go(-1)
-    },
     tabClick(title, name) {
       if (name === '全部') {
         this.orderList = this.copyOrderList
       } else {
         this.orderList = this.copyOrderList.filter(item => name === item.type)
       }
+    },
+    goToOrderDetail() {
+      this.$router.push({
+        path: '/orderDetail'
+      })
     }
   }
 }
@@ -121,8 +127,6 @@ export default {
 }
 </style>
 <style scoped lang="scss">
-.header {
-}
 .order-container {
   border-radius: 12px;
   background: #fff;
@@ -130,38 +134,56 @@ export default {
   overflow: hidden;
   margin-top: 14px;
   .header-container {
-    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    .left {
+      display: flex;
+      align-items: center;
+      .image {
+        width: 15px;
+        height: 15px;
+        margin-right: 4px;
+      }
+    }
+
     .order-type {
       color: #e8281e;
       float: right;
-      font-size: 14px;
     }
   }
   .section-container {
-    margin-top: 20px;
-    .img {
-      width: 100px;
-      height: 100px;
-      float: left;
-      background-image: url('../../../static/dsg.jpg');
-      background-repeat: no-repeat;
-      background-size: contain;
+    margin-top: 15px;
+    display: flex;
+    align-items: flex-start;
+    .img-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
+      flex-shrink: 0;
+      width: 80px;
+      height: 80px;
       box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
       border-radius: 10px;
+      img {
+        width: 68px;
+        height: 62px;
+      }
     }
     .content {
-      margin-left: 120px;
       .title {
-        font-size: 16px;
+        font-size: 14px;
       }
       .describe {
-        margin: 11px 0;
-        font-size: 13px;
-        color: #b3b3b3;
+        margin: 10px 0;
+        font-size: 11px;
+        color: #999;
       }
       .price {
         font-weight: bold;
-        font-size: 18px;
+        font-size: 14px;
         color: #5d5d5d;
         .font-size-samll {
           font-size: 12px;
@@ -169,10 +191,10 @@ export default {
       }
       .total {
         float: right;
-        font-size: 14px;
+        font-size: 12px;
         margin: 15px 0;
         .font-size-large {
-          font-size: 18px;
+          font-size: 15px;
         }
       }
     }

@@ -51,7 +51,7 @@
           </div>
         </div>
         <input type="text" class="gray-input" placeholder="请输入支付验证码" />
-        <div class="get-code" @click="goToOrderDetail">获取支付验证码</div>
+        <div class="get-code">获取支付验证码</div>
         <button>确认支付</button>
       </van-popup>
     </div>
@@ -85,11 +85,6 @@ export default {
     },
     closeAuthModal() {
       this.showAuthModal = false
-    },
-    goToOrderDetail() {
-      this.$router.push({
-        path: '/orderDetail'
-      })
     }
   }
 }

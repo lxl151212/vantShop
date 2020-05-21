@@ -82,6 +82,22 @@ export const router = [
     meta: {
       keepAlive: false
     }
+  },
+  {
+    path: '/addressList',
+    name: 'addressList',
+    component: () => import('@/views/addressManger/list'),
+    meta: {
+      keepAlive: false
+    }
+  },
+  {
+    path: '/editAddress',
+    name: 'editAddress',
+    component: () => import('@/views/addressManger/edit'),
+    meta: {
+      keepAlive: false
+    }
   }
 ]
 

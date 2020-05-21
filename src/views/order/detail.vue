@@ -112,6 +112,7 @@ export default {
         display: flex;
         align-items: center;
         justify-content: center;
+        flex-shrink: 0;
         margin-right: 20px;
         width: 80px;
         height: 80px;
