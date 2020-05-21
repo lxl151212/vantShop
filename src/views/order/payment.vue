@@ -71,7 +71,7 @@ export default {
   data() {
     return {
       showAuthModal: false,
-      showPaymentModal: true
+      showPaymentModal: false
     }
   },
   methods: {

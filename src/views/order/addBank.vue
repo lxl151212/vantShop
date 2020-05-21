@@ -20,13 +20,6 @@
           </div>
         </div>
         <template #right>
-          <!-- <van-icon
-            name="delete"
-            color="#999"
-            size="50"
-            class="delete-btn"
-            @click="handleDelect(card, index)"
-          /> -->
           <img
             src="../../../static/icon_delete.png"
             alt=""

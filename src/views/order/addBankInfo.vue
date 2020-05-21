@@ -34,10 +34,21 @@
       <div class="card-cell">
         <div class="label">验证码</div>
         <input type="text" placeholder="请输入验证码" class="input" />
-        <div class="tag getCode">获取验证码</div>
+        <div class="getCode-box">
+          <div class="tag getCode" v-if="showGetCode" @click="clickGetCode">
+            获取验证码
+          </div>
+          <van-count-down
+            :time="time"
+            format="ss 秒"
+            style="color:#ff5363"
+            @finish="finishCountDown"
+            v-else
+          />
+        </div>
       </div>
     </div>
-    <div class="button">确认绑定</div>
+    <div class="button" @click="confirmBind">确认绑定</div>
   </div>
 </template>
 
@@ -47,9 +58,22 @@ export default {
   name: 'addBankInfo',
   components: { Header },
   data() {
-    return {}
+    return {
+      time: 60 * 1000,
+      showGetCode: true
+    }
   },
-  methods: {}
+  methods: {
+    finishCountDown() {
+      this.showGetCode = true
+    },
+    clickGetCode() {
+      this.showGetCode = false
+    },
+    confirmBind() {
+      console.log('确认绑定')
+    }
+  }
 }
 </script>
 
@@ -67,13 +91,15 @@ export default {
       position: relative;
       .label {
         padding-right: 15px;
-        width: 100px;
+        width: 120px;
         font-size: 14px;
         color: #666;
+        flex-shrink: 0;
       }
       .value {
         font-size: 15px;
         color: #333;
+        flex: 1;
       }
 
       .tag {
@@ -85,11 +111,11 @@ export default {
         justify-content: center;
         padding: 0 11px;
         height: 21px;
-        border: 1px solid rgba(22, 89, 213, 1);
+        border: 1px solid #1659d5;
         border-radius: 5px;
         color: #1659d5;
         &.getCode {
-          border: 1px solid rgba(255, 83, 99, 1);
+          border: 1px solid #ff5363;
           color: #ff5363;
         }
       }

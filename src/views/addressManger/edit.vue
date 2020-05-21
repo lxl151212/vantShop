@@ -5,8 +5,10 @@
       :area-list="areaList"
       show-set-default
       show-search-result
+      show-delete
       save-button-text="保存地址"
       :area-columns-placeholder="['请选择', '请选择', '请选择']"
+      :address-info="AddressInfo"
       @save="onSave"
     />
   </div>
@@ -21,12 +23,24 @@ export default {
   components: { Header },
   data() {
     return {
-      areaList
+      areaList,
+      AddressInfo: {
+        id: '10001',
+        name: 'name',
+        tel: '18829783382',
+        province: '天津市',
+        city: '天津市',
+        county: '和平区',
+        areaCode: '110102',
+        addressDetail: '11111',
+        isDefault: false
+      }
     }
   },
   methods: {
-    onSave() {
+    onSave(content) {
       Toast('save')
+      console.log(content)
     }
   }
 }

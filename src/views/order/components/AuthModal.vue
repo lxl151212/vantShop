@@ -5,6 +5,8 @@
       round
       position="bottom"
       :style="{ height: '40%', borderRadius: '8px 8px 0 0' }"
+      @click-overlay="clickOverlay"
+      safe-area-inset-bottom
     >
       <div class="title">绑定支付授权</div>
       <p class="text">
@@ -38,7 +40,8 @@ export default {
     },
     clickAllow() {
       this.$parent.closeAuthModal('点了允许')
-    }
+    },
+    clickOverlay() {}
   }
 }
 </script>

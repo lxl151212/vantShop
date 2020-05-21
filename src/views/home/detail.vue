@@ -55,13 +55,21 @@
           组团做家装，人多价更低，将此拼团信息分享给更多朋友吧！
         </div>
         <div class="share-icon">
-          <div
-            class="item"
-            v-for="(shareItem, index) in shareList"
-            :key="index"
-          >
-            <img :src="shareItem.icon" />
-            <div class="text">{{ shareItem.text }}</div>
+          <div class="item">
+            <img src="../../../static/icon_wechat.png" />
+            <div class="text">微信</div>
+          </div>
+          <div class="item">
+            <img src="../../../static/icon_circle_of_friends.png" />
+            <div class="text">朋友圈</div>
+          </div>
+          <div class="item">
+            <img src="../../../static/icon_qq.png" />
+            <div class="text">QQ</div>
+          </div>
+          <div class="item">
+            <img src="../../../static/icon_space.png" />
+            <div class="text">空间</div>
           </div>
         </div>
         <div class="cancel-btn" @click="cancelShare">取消</div>
@@ -86,13 +94,7 @@ export default {
         'font-size': '16px',
         'font-weight': 'bold'
       },
-      showShareModal: false,
-      shareList: [
-        { icon: '../../../static/icon_wechat.png', text: '微信' },
-        { icon: '../../../static/icon_circle_of_friends.png', text: '朋友圈' },
-        { icon: '../../../static/icon_qq.png', text: 'QQ' },
-        { icon: '../../../static/icon_space.png', text: '空间' }
-      ]
+      showShareModal: false
     }
   },
 
@@ -305,6 +307,10 @@ export default {
       }
     }
     .cancel-btn {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
       padding: 20px 0;
       font-size: 17px;
       color: #999;

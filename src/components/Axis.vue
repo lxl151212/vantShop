@@ -134,20 +134,6 @@ export default {
     }
   }
 
-  // .first-money {
-  //   float: left;
-  //   position: relative;
-  //   text-align: center;
-  //   height: 25px;
-  //   .money-content {
-  //     position: absolute;
-  //     width: 38px;
-  //     bottom: 0px;
-  //     left: -25px;
-  //     color: red;
-  //   }
-  // }
-
   .money {
     float: left;
     text-align: center;

@@ -17,12 +17,20 @@
 <script>
 export default {
   name: 'AddMobile',
+  computed: {},
   data() {
     return {
       show: false
     }
   },
-  methods: {}
+  mounted() {
+    // this.formatPhone('13123456789')
+  },
+  methods: {
+    formatPhone(phone) {
+      return phone.substr(0, 3) + '****' + phone.substr(7)
+    }
+  }
 }
 </script>
 
