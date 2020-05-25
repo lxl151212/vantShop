@@ -4,7 +4,10 @@
       <div class="card__title"><span>拼团玩法</span></div>
       <img src="../../static/pic_play.png" alt="" class="pic-play" />
     </div>
-    <div class="card">
+    <div
+      class="card"
+      v-if="goodsDetail.join_list && goodsDetail.join_list.length > 0"
+    >
       <div class="card__title">
         <span>团购进度</span>
         <p class="more-btn" @click="handlerShowPopup">
@@ -14,46 +17,32 @@
       <div class="avatars">
         <img
           class="avatar"
-          src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3374416169,262924133&fm=111&gp=0.jpg"
+          v-for="(avatar, index) in goodsDetail.avatar_list"
+          :key="index"
+          :src="avatar"
           alt=""
-          v-for="avatar in imageList"
-          :key="avatar"
         />
       </div>
       <div class="progress-box">
-        <Axis></Axis>
+        <Axis :axisData="goodsDetail"></Axis>
       </div>
     </div>
-    <div class="card detail-card">
+    <div class="card">
       <div class="card__title"><span>商品详情</span></div>
       <div class="detail-info">
         <p class="detail-info__name">产品参数:</p>
-        <div class="parameter">
-          <span>品牌：凯琳熙</span>
-          <span>型号：safha02</span>
-          <span>材质：木质</span>
+        <div
+          class="parameter"
+          v-for="(parameterItem, index) in goodsDetail.arrribute"
+          :key="index"
+        >
+          <span>{{ parameterItem.attr_name }}</span>
+          <span>{{ parameterItem.attr_value_value }}</span>
         </div>
-        <div class="parameter">
-          <span>风格：简约现代</span>
-        </div>
-        <div class="parameter">
-          <span>产地：广东省</span>
-          <span>类型：组合</span>
-          <span>适用空间：家</span>
-        </div>
-        <div class="detail-imageList">
-          <img
-            src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1589794271776&di=9c95d86195d8bf01582da159c8a747cb&imgtype=0&src=http%3A%2F%2Fwww.biyebi.com%2FAttachments%2Fbaike%2F201511%2F5657c881b855b.jpg"
-            alt=""
-          />
-          <img
-            src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1589794271776&di=9c95d86195d8bf01582da159c8a747cb&imgtype=0&src=http%3A%2F%2Fwww.biyebi.com%2FAttachments%2Fbaike%2F201511%2F5657c881b855b.jpg"
-            alt=""
-          />
-        </div>
+        <div class="detail-content" v-html="goodsDetail.content"></div>
       </div>
     </div>
-    <Popup v-if="showPopup"></Popup>
+    <Popup v-if="showPopup" :popupData="goodsDetail"></Popup>
   </div>
 </template>
 
@@ -64,6 +53,12 @@ import { forMatTime } from '@/utils/fomatDate'
 export default {
   name: 'Card',
   components: { Popup, Axis },
+  props: {
+    goodsDetail: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
       imageList: [1, 2, 3, 4, 5, 6],
@@ -153,12 +148,17 @@ export default {
       .parameter {
         display: flex;
         align-items: center;
-        justify-content: space-between;
         margin-bottom: 11px;
         font-size: 14px;
         color: #666;
+        span {
+          padding-right: 50px;
+          &:last-child {
+            padding-right: 0;
+          }
+        }
       }
-      .detail-imageList {
+      .detail-content {
         padding-top: 13px;
         img {
           margin-top: -2px;
@@ -166,9 +166,6 @@ export default {
           height: 345px;
         }
       }
-    }
-    &.detail-card {
-      padding-bottom: 0;
     }
   }
   .popup {

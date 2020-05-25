@@ -36,14 +36,16 @@ service.interceptors.response.use(
   response => {
     Toast.clear()
     const res = response.data
-    if (res.status && res.status !== 200) {
+    if (res.error_code && res.error_code !== 10000) {
       // 登录超时,重新登录
       if (res.status === 401) {
+        console.log('去登录')
         store.dispatch('FedLogOut').then(() => {
           location.reload()
         })
       }
-      return Promise.reject(res || 'error')
+      return Toast(res.message)
+      // return Promise.reject(res || 'error')
     } else {
       return Promise.resolve(res)
     }

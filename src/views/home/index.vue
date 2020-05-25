@@ -7,8 +7,12 @@
       :autoplay="3000"
       indicator-color="#000"
     >
-      <van-swipe-item v-for="(image, index) in images" :key="index">
-        <img :src="image" class="swiper-image" />
+      <van-swipe-item
+        v-for="(image, index) in slideImages"
+        :key="index"
+        @click="clickSwipeItem(image.url)"
+      >
+        <img :src="image.image" class="swiper-image" />
       </van-swipe-item>
     </van-swipe>
     <div class="goods-list-box">
@@ -17,10 +21,10 @@
           <div
             class="tab-item"
             v-for="(tabItem, tabIndex) in tabList"
-            :key="tabItem"
+            :key="tabItem.id"
             @click="clickTab(tabIndex)"
           >
-            <span class="title">{{ tabItem }}</span>
+            <span class="title">{{ tabItem.type }}</span>
             <div
               class="border"
               :class="{ 'current-border': tabActive === tabIndex }"
@@ -28,29 +32,41 @@
           </div>
         </div>
       </sticky>
-      <div class="goods-list">
-        <div
-          class="goods-item"
-          v-for="goodsItem in goodList"
-          :key="goodsItem"
-          @click="goToGoodsDetail"
-        >
-          <img
-            src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1589794271776&di=9c95d86195d8bf01582da159c8a747cb&imgtype=0&src=http%3A%2F%2Fwww.biyebi.com%2FAttachments%2Fbaike%2F201511%2F5657c881b855b.jpg"
-            alt=""
-            class="goods-item__image"
-          />
-          <div class="goods-info">
-            <div class="detail">
-              日式木质简约风入户沙发起居室客厅多人转角室客厅多人转角
+      <van-list
+        v-if="goodList.length > 0"
+        v-model="loading"
+        :finished="finished"
+        finished-text="没有更多了"
+        @load="onLoad"
+        offset="10"
+      >
+        <div class="goods-list">
+          <van-cell
+            v-for="goodsItem in goodList"
+            :key="goodsItem.id"
+            @click="goToGoodsDetail(goodsItem.id)"
+          >
+            <div class="goods-item">
+              <img :src="goodsItem.imgUrl" alt="" class="goods-item__image" />
+              <div class="goods-info">
+                <div class="detail">
+                  {{ goodsItem.title }}
+                </div>
+                <div class="pay-price" v-if="goodsItem.low_price">
+                  <span class="large">¥{{ goodsItem.low_price }}</span>
+                  <span>起</span>
+                </div>
+                <div class="price" v-if="goodsItem.line_price">
+                  ¥{{ goodsItem.line_price }}
+                </div>
+              </div>
             </div>
-            <div class="pay-price">
-              <span class="large">¥36.00</span>
-              <span>起</span>
-            </div>
-            <div class="price">¥400.00</div>
-          </div>
+          </van-cell>
         </div>
+      </van-list>
+
+      <div class="no-data" v-if="goodList.length === 0">
+        暂无数据
       </div>
     </div>
   </div>
@@ -58,45 +74,93 @@
 
 <script>
 import { getUserName } from '@/api/user'
+import { goodsList } from '@/api/goods'
 import Header from '@/components/Header'
 import Sticky from '@/components/Sticky'
 export default {
   components: { Header, Sticky },
   data() {
     return {
-      images: [
-        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1589794271776&di=9c95d86195d8bf01582da159c8a747cb&imgtype=0&src=http%3A%2F%2Fwww.biyebi.com%2FAttachments%2Fbaike%2F201511%2F5657c881b855b.jpg',
-        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1589794271776&di=9c95d86195d8bf01582da159c8a747cb&imgtype=0&src=http%3A%2F%2Fwww.biyebi.com%2FAttachments%2Fbaike%2F201511%2F5657c881b855b.jpg'
-      ],
       tabActive: 0,
-      tabList: ['品牌闪购', '定制核量类'],
-      goodList: [1, 2, 3, 4, 5, 6, 7, 8]
+      tabList: [
+        { id: 5, type: '品牌闪购' },
+        { id: 6, type: '定制核量类' }
+      ],
+      goodList: [],
+      page: 1,
+      loading: false,
+      finished: false,
+      total: 0,
+      pagesize: 15,
+      slideImages: []
     }
   },
-  mounted() {},
+  mounted() {
+    this.getGoodsList(this.tabList[this.tabActive].id)
+  },
 
   methods: {
-    handleSearch() {
+    getGoodsList(cateId) {
       const params = {
-        id: 123,
-        name: '張三'
+        cate_id: cateId,
+        page: this.page,
+        pagesize: this.pagesize
       }
-      getUserName(params, '00001').then(res => {
-        console.log(res)
+      goodsList(params).then(res => {
+        if (res.data) {
+          const { pages, datas, slide_images: slideImages } = res.data
+          const goodListData = datas.map(item => {
+            if (item.thumb) {
+              item.imgUrl = item.thumb.split(',')[0]
+            } else {
+              item.imgUrl =
+                'https://ns-strategy.cdn.bcebos.com/ns-strategy/upload/fc_big_pic/part-00020-3503.jpg'
+            }
+            return item
+          })
+          this.loading = false
+          this.total = pages.totalCount
+          this.slideImages = slideImages
+          if (datas == null || datas.length === 0) {
+            // 加载结束
+            this.finished = true
+            return
+          }
+          this.goodList = this.goodList.concat(goodListData)
+          if (this.goodList.length >= this.total) {
+            this.finished = true
+          }
+        }
       })
     },
-    goToGoodsDetail() {
+    onLoad() {
+      this.page++
+      this.getGoodsList()
+    },
+    goToGoodsDetail(goodsId) {
       this.$router.push({
-        path: '/detail'
+        path: '/detail',
+        query: { id: goodsId }
       })
     },
     clickTab(index) {
       this.tabActive = index
+      this.goodList = []
+      this.getGoodsList(this.tabList[this.tabActive].id)
+    },
+    clickSwipeItem(url) {
+      window.location.href = url
     }
   }
 }
 </script>
 <style lang="scss" scoped>
+.van-cell {
+  padding: 0;
+  display: flex;
+  background: #f7f6fb;
+  width: 171px;
+}
 .app-container {
   width: 100%;
   .my-swipe {
@@ -117,13 +181,6 @@ export default {
       color: #333;
       font-weight: 500;
       padding-top: 14px;
-      // &.fixed-tabs {
-      //   background: #fff;
-      //   position: fixed;
-      //   top: 0;
-      //   right: 0;
-      //   left: 0;
-      // }
       .tab-item {
         display: flex;
         flex-direction: column;
@@ -196,6 +253,12 @@ export default {
           }
         }
       }
+    }
+    .no-data {
+      margin-top: 160px;
+      font-size: 16px;
+      color: #666;
+      text-align: center;
     }
   }
 }

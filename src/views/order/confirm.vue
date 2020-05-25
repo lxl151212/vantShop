@@ -26,7 +26,7 @@
           </div>
           <div class="order-info__detail--info">
             <p>
-              现代简约电视柜，小户型可伸缩 电视机小型机柜
+              {{ confirmDetail.title }}
             </p>
             <span>黑色，2m×1.5m</span>
             <div class="price">
@@ -38,10 +38,13 @@
         <div class="total">共计1件，小计¥100<span>.00</span></div>
       </div>
     </div>
-    <div class="pay-btn" @click="goToPay">
+    <div class="pay-btn" @click="goToPay" v-if="confirmDetail.deposit_price">
       <div class="deposit">
         定金价：
-        <div class="deposit__price"><span>¥</span>100<small>.00</small></div>
+        <div class="deposit__price">
+          <span>¥</span>{{ confirmDetail.deposit_price[0]
+          }}<small>.{{ confirmDetail.deposit_price[1] }}</small>
+        </div>
       </div>
       <div class="btn">立即支付</div>
     </div>
@@ -50,12 +53,19 @@
 
 <script>
 import Header from '@/components/Header'
+import { goodsDetail as goodsDetailApi } from '@/api/goods'
 export default {
   name: 'OrderConfirm',
   components: { Header },
   data() {
-    return {}
+    return {
+      confirmDetail: {}
+    }
   },
+  mounted() {
+    this.getGoodsDetail(this.$route.query.id)
+  },
+
   methods: {
     goToPay() {
       this.$router.push({
@@ -66,6 +76,15 @@ export default {
       this.$router.push({
         path: '/addressList'
       })
+    },
+    async getGoodsDetail(goodsId) {
+      const { data } = await goodsDetailApi({
+        id: goodsId
+      })
+      if (data.deposit_price) {
+        data.deposit_price = data.deposit_price.split('.')
+      }
+      this.confirmDetail = data
     }
   }
 }

@@ -11,13 +11,18 @@
           :key="item"
           :style="{ width: perAxis + '%' }"
         >
-          <div class="content" :style="{ right: -(perAxis * 2) + '%' }">
+          <div class="content" :style="{ right: -8 + 'px' }">
             {{ item + '人' }}
           </div>
           <div class="bar" :class="{ lightBar: item <= currentPersons }"></div>
         </div>
       </div>
-      <van-progress pivot-text="" color="#ee0a24" :percentage="percentage" />
+      <van-progress
+        pivot-text=""
+        color="#ee0a24"
+        v-if="percentage"
+        :percentage="percentage"
+      />
       <div style="height:25px">
         <div
           class="money"
@@ -40,34 +45,27 @@
 <script>
 export default {
   name: 'Axis',
+  props: ['axisData'],
   data() {
     return {
-      currentPersons: 40,
-      personArray: [10, 20, 30, 50, 60, 70, 80, 90],
-      moneyArray: [
-        { num: 10, money: 1000 },
-        { num: 20, money: 900 },
-        { num: 30, money: 800 },
-        { num: 50, money: 700 },
-        { num: 60, money: 600 },
-        { num: 70, money: 500 },
-        { num: 80, money: 400 },
-        { num: 90, money: 300 }
-      ]
+      currentPersons: 0,
+      personArray: [],
+      moneyArray: []
     }
   },
   computed: {
     percentage() {
-      if (this.currentPersons > 70 && this.currentPersons <= 75) {
-        return this.currentPersons * (100 / 82)
-      } else if (this.currentPersons > 75 && this.currentPersons <= 81) {
-        return this.currentPersons * (100 / 85)
-      } else if (this.currentPersons > 81 && this.currentPersons <= 85) {
-        return this.currentPersons * (100 / 88)
-      } else if (this.currentPersons > 85 && this.currentPersons <= 90) {
-        return this.currentPersons * (100 / 90)
+      const i = this.personArray.findIndex(value => value > this.currentPersons)
+      const max = this.personArray[i]
+      const min = this.personArray[i - 1] || 0
+      if (i === -1) {
+        return 100
       } else {
-        return this.currentPersons * (100 / 80)
+        const ratio = 100 / (this.personArray.length * 10)
+        return (
+          i * 10 * ratio +
+          ((this.currentPersons - min) / ((max - min) / 10)) * ratio
+        )
       }
     },
     perAxis() {
@@ -75,7 +73,19 @@ export default {
     }
   },
   methods: {},
-  mounted() {}
+  mounted() {
+    const groupRules = JSON.parse(this.axisData.group_rules)
+    const personArray = Object.keys(groupRules).map(i => {
+      return Number(i)
+    })
+    const moneyArray = []
+    for (const key in groupRules) {
+      moneyArray.push({ num: Number(key), money: Number(groupRules[key]) })
+    }
+    this.personArray = personArray
+    this.moneyArray = moneyArray
+    this.currentPersons = this.axisData.num
+  }
 }
 </script>
 
@@ -148,7 +158,7 @@ export default {
     .money-content {
       position: absolute;
       bottom: 0px;
-      right: -25%;
+      right: -8px;
       &.light-money {
         color: red;
       }

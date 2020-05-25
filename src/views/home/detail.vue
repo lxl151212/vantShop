@@ -1,7 +1,6 @@
 <!-- home -->
 <template>
   <div class="goods-detail">
-    <!-- <Header title="商品详情"></Header> -->
     <div class="top">
       <div class="go-back" @click="goBack">
         <img src="../../../static/icon_back_circle.png" alt="" />
@@ -17,8 +16,12 @@
         width="100%"
         :autoplay="3000"
         indicator-color="#000"
+        v-if="goodsDetail.thumb && goodsDetail.thumb.length > 0"
       >
-        <van-swipe-item v-for="(image, index) in images" :key="index">
+        <van-swipe-item
+          v-for="(image, index) in goodsDetail.thumb"
+          :key="index"
+        >
           <img :src="image" class="swiper-image" />
         </van-swipe-item>
       </van-swipe>
@@ -28,33 +31,45 @@
         <div class="pay-price-box">
           <div class="pay-price">
             <span class="Symbol">¥</span>
-            <span class="price">178</span>
-            <span class="unit">.00</span>
+            <span class="price">{{
+              goodsDetail.low_price && goodsDetail.low_price[0]
+            }}</span>
+            <span class="unit"
+              >.{{ goodsDetail.low_price && goodsDetail.low_price[1] }}</span
+            >
             <span>起</span>
           </div>
-          <div class="tag">团购中</div>
+          <div class="tag">{{ joinStatus }}</div>
         </div>
-        <div class="yuan-price">¥318.00</div>
+        <div class="yuan-price" v-if="goodsDetail.line_price">
+          ¥{{ goodsDetail.line_price }}
+        </div>
       </div>
-      <div class="count-down__time">
-        <div class="title">距离结束还有</div>
-        <van-count-down
-          :time="time"
-          format="HH : mm : ss"
-          :style="countDownStyle"
-        >
-        </van-count-down>
+      <div>
+        <div class="count-down__time" v-if="countDown > 0">
+          <div class="title">距离结束还有</div>
+          <van-count-down
+            :time="countDown"
+            format="HH : mm : ss"
+            :style="countDownStyle"
+            @finish="finishCountDown"
+          >
+          </van-count-down>
+        </div>
+        <div class="count-down__time" v-else>
+          <div class="title" style="padding-bottom:0">已结束</div>
+        </div>
       </div>
     </div>
     <div class="introduce">
       <div class="name">
-        酷鲨 电视柜茶几组合小户型落地试听柜 影视柜 带抽屉 柚木色(加厚)80cm—120cm
+        {{ goodsDetail.title }}
       </div>
-      <span class="title">全场包邮·急速发货·极速退款</span>
+      <span class="title">{{ goodsDetail.selling_point }}</span>
     </div>
-    <GoodsCard></GoodsCard>
+    <GoodsCard :goodsDetail="goodsDetail"></GoodsCard>
     <div class="btn-box" @click="handlerJoin">
-      <div class="btn">参团定金(100.00元)</div>
+      <div class="btn">参团定金({{ goodsDetail.deposit_price }}元)</div>
     </div>
     <div class="share-box">
       <van-popup
@@ -92,53 +107,85 @@
 </template>
 
 <script>
-// 请求接口
-import { getUserInfo } from '@/api/user.js'
 import { mapGetters } from 'vuex'
-// import Header from '@/components/Header'
 import GoodsCard from '@/components/Card'
+import { goodsDetail as goodsDetailApi } from '@/api/goods'
 export default {
   components: { GoodsCard },
   data() {
     return {
-      time: 30 * 60 * 60 * 1000,
       countDownStyle: {
         color: '#D7261C',
         'font-size': '16px',
         'font-weight': 'bold'
       },
       showShareModal: false,
-      images: [
-        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1589794271776&di=9c95d86195d8bf01582da159c8a747cb&imgtype=0&src=http%3A%2F%2Fwww.biyebi.com%2FAttachments%2Fbaike%2F201511%2F5657c881b855b.jpg',
-        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1589794271776&di=9c95d86195d8bf01582da159c8a747cb&imgtype=0&src=http%3A%2F%2Fwww.biyebi.com%2FAttachments%2Fbaike%2F201511%2F5657c881b855b.jpg'
-      ]
+      goodsDetail: {}
     }
   },
 
   computed: {
-    ...mapGetters(['userName', 'selectedBankInfo'])
+    ...mapGetters(['userName', 'selectedBankInfo']),
+    countDown() {
+      const currentTime = new Date().getTime()
+      let diffTime = 0
+      if (this.goodsDetail && this.goodsDetail.end_time) {
+        diffTime = this.goodsDetail.end_time - currentTime
+      }
+      return diffTime
+    },
+    joinStatus() {
+      let statusText = ''
+      switch (this.goodsDetail && this.goodsDetail.status) {
+        case '0':
+          statusText = '团购中'
+          break
+        case '1':
+          statusText = '已成团'
+          break
+        case '2':
+          statusText = '已关闭'
+          break
+        case '3':
+          statusText = '已过期'
+          break
+        case '4':
+          statusText = '删除'
+          break
+      }
+      return statusText
+    }
   },
 
   created() {},
 
   mounted() {
-    this.initData()
-    console.log(this.selectedBankInfo)
+    this.getGoodsDetail(this.$route.query.id)
   },
 
   methods: {
-    // 请求数据案例
-    initData() {
-      // 请求接口数据，仅作为展示，需要配置src->config下环境文件
-      const params = { user: 'sunnie' }
-      getUserInfo(params)
-        .then(() => {})
-        .catch(() => {})
-    },
     handlerJoin() {
       this.$router.push({
-        path: '/orderConfirm'
+        path: '/orderConfirm',
+        query: { id: this.$route.query.id }
       })
+    },
+    async getGoodsDetail(goodsId) {
+      const { data } = await goodsDetailApi({
+        id: goodsId
+      })
+      if (data.low_price) {
+        data.low_price = data.low_price.split('.')
+      }
+      if (data.thumb) {
+        data.thumb = data.thumb.split(',')
+      }
+      if (data.join_list.length > 7) {
+        data.avatar_list = data.join_list.splice(0, 8)
+      } else {
+        data.avatar_list = data.join_list
+      }
+      this.goodsDetail = data
     },
     openShare() {
       this.showShareModal = true

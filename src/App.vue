@@ -8,7 +8,13 @@
 </template>
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  data() {
+    return {}
+  },
+  beforeCreate() {
+    localStorage.setItem('sso_sid', '9f76f8908f36d21a6f61ca46838231fe')
+  }
 }
 </script>
 <style lang="scss"></style>

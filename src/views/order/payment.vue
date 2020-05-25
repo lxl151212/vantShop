@@ -64,6 +64,7 @@
 import Header from '@/components/Header'
 import AuthModal from './components/AuthModal'
 import AddMobile from './components/AddMobile'
+
 export default {
   name: 'payment',
   components: { Header, AuthModal, AddMobile },
@@ -74,6 +75,7 @@ export default {
       showPaymentModal: false
     }
   },
+  mounted() {},
   methods: {
     GoToSelectBank() {
       this.$router.push({

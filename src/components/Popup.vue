@@ -8,26 +8,27 @@
         class="close"
         @click="closePopup()"
       />
-      <div class="name">正在拼团(42人)</div>
-      <div class="count-down">
-        <div class="title">距离结束还有</div>
-        <van-count-down
-          :time="time"
-          format="HH : mm : ss"
-          :style="countDownStyle"
-        />
+      <div class="name">正在拼团({{ popupData.num }}人)</div>
+      <div>
+        <div class="count-down" v-if="countDown > 0">
+          <div class="title">距离结束还有</div>
+          <van-count-down
+            :time="countDown"
+            format="HH : mm : ss"
+            :style="countDownStyle"
+          />
+        </div>
+        <div class="count-down" v-else>已结束</div>
       </div>
+
       <div class="avatars">
         <div
-          v-for="(avatar, index) in imageList"
-          :key="avatar"
+          v-for="(avatar, index) in popupData.join_list"
+          :key="index"
           class="image"
           :class="{ 'no-margin': (index + 1) % 6 === 0 }"
         >
-          <img
-            src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3374416169,262924133&fm=111&gp=0.jpg"
-            alt=""
-          />
+          <img :src="avatar" alt="" />
         </div>
       </div>
     </div>
@@ -37,17 +38,25 @@
 <script>
 export default {
   name: 'Popup',
-  props: {},
-  computed: {},
+  props: ['popupData'],
+  computed: {
+    countDown() {
+      const currentTime = new Date().getTime()
+      let diffTime = 0
+      if (this.popupData && this.popupData.end_time) {
+        diffTime = this.popupData.end_time - currentTime
+      }
+      return diffTime
+    }
+  },
+
   data() {
     return {
       countDownStyle: {
         color: '#D7261C',
         'font-size': '18px',
         'font-weight': 'bold'
-      },
-      time: 30 * 60 * 60 * 1000,
-      imageList: [1, 2, 3, 4, 5, 6, 7, 8]
+      }
     }
   },
   methods: {
@@ -114,6 +123,8 @@ export default {
         width: 40px;
         height: 40px;
         margin-right: 10px;
+        border: 1px solid #d7d7d7;
+        border-radius: 50%;
         img {
           width: 100%;
           height: 100%;
